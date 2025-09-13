@@ -3,21 +3,23 @@ import numpy as np
 import os
 from tqdm import tqdm
 
-image = Image.open("images/conversion-images/obama.jpg")
+imgName = str(input("Name of image (with extension): "))
+cropSize = int(input("Crop size: "))
+
+image = Image.open(f"images/conversion-images/{imgName}")
+partsDirectory = ("images/mosaic-parts/bird")
 width, height = image.size
 
-cropSize = 32
 cropX, cropY = 0, 0  # top-left corner of the crop
 area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
-directory = ("images/mosaic-parts/airplane")
-mosaicParts = []
-
 print("Generating Image...")
 
-for mosaicPart in os.listdir(directory):
+mosaicParts = []
 
-	mosaicPartPath = f'{directory}/{mosaicPart}'
+for mosaicPart in os.listdir(partsDirectory):
+
+	mosaicPartPath = f'{partsDirectory}/{mosaicPart}'
 	mosaicPartImg = Image.open(mosaicPartPath).convert('RGB').resize((cropSize, cropSize))
 	arr = np.array(mosaicPartImg)
 	mosaicPartProcessed = arr.mean(axis=(0,1)).astype(int)
@@ -26,9 +28,9 @@ for mosaicPart in os.listdir(directory):
 
 mosaicAverages = np.array([part[1] for part in mosaicParts])
 
-for i in tqdm(range(0, width // 32)):
-	for j in range(0, height // 32):
-		cropX, cropY = i * 32, j * 32
+for i in tqdm(range(0, width // cropSize)):
+	for j in range(0, height // cropSize):
+		cropX, cropY = i * cropSize, j * cropSize
 		area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
 		croppedImage = image.crop(area)
@@ -45,11 +47,11 @@ for i in tqdm(range(0, width // 32)):
 		bestIdx = np.argmin(dists)
 		bestMatch = mosaicParts[bestIdx][0]
 
-		image.paste(bestMatch, (i*32, j*32))
+		image.paste(bestMatch, (i*cropSize, j*cropSize))
 
 
-finalWidth = (width // 32) * 32
-finalHeight = (height // 32) * 32
+finalWidth = (width // cropSize) * cropSize
+finalHeight = (height // cropSize) * cropSize
 
 # Crop and show the result
 image.crop((0, 0, finalWidth, finalHeight)).show()

@@ -1,1 +1,1 @@
-Mosaic Parts must currently be 32*32px
+Mosaic Parts can be any size, but will be resized to a square format.
