@@ -7,7 +7,7 @@ imgName = str(input("Name of image (with extension): "))
 cropSize = int(input("Crop size: "))
 
 image = Image.open(f"images/conversion-images/{imgName}")
-partsDirectory = ("images/mosaic-parts/bird")
+partsDirectory = ("images/mosaic-parts/")
 width, height = image.size
 
 cropX, cropY = 0, 0  # top-left corner of the crop
