@@ -13,7 +13,7 @@ width, height = image.size
 cropX, cropY = 0, 0  # top-left corner of the crop
 area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
-print("Generating Image...")
+print("Processing Images...")
 
 mosaicParts = []
 
@@ -27,6 +27,8 @@ for mosaicPart in os.listdir(partsDirectory):
 	mosaicParts.append([mosaicPartImg, mosaicPartProcessed])
 
 mosaicAverages = np.array([part[1] for part in mosaicParts])
+
+print("Generating Image...")
 
 for i in tqdm(range(0, width // cropSize)):
 	for j in range(0, height // cropSize):
