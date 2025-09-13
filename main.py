@@ -18,7 +18,9 @@ print("Processing Images...")
 mosaicParts = []
 
 for mosaicPart in os.listdir(partsDirectory):
-
+	if mosaicPart == "criteria":
+		continue
+	
 	mosaicPartPath = f'{partsDirectory}/{mosaicPart}'
 	mosaicPartImg = Image.open(mosaicPartPath).convert('RGB').resize((cropSize, cropSize))
 	arr = np.array(mosaicPartImg)
