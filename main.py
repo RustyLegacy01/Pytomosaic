@@ -10,7 +10,7 @@ cropSize = 32
 cropX, cropY = 0, 0  # top-left corner of the crop
 area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
-directory = ("images/mosaic-parts/frog")
+directory = ("images/mosaic-parts/airplane")
 mosaicParts = []
 
 print("Generating Image...")
@@ -18,12 +18,13 @@ print("Generating Image...")
 for mosaicPart in os.listdir(directory):
 
 	mosaicPartPath = f'{directory}/{mosaicPart}'
-	mosaicPartImg = Image.open(mosaicPartPath)
+	mosaicPartImg = Image.open(mosaicPartPath).convert('RGB').resize((cropSize, cropSize))
 	arr = np.array(mosaicPartImg)
 	mosaicPartProcessed = arr.mean(axis=(0,1)).astype(int)
 
-	mosaicParts.append([mosaicPartPath, mosaicPartProcessed])
+	mosaicParts.append([mosaicPartImg, mosaicPartProcessed])
 
+mosaicAverages = np.array([part[1] for part in mosaicParts])
 
 for i in tqdm(range(0, width // 32)):
 	for j in range(0, height // 32):
@@ -39,15 +40,12 @@ for i in tqdm(range(0, width // 32)):
 		minDist = float('inf')
 		bestMatchPath = None
 
-		for partPath, partAvg in mosaicParts:
-			dist = np.linalg.norm(avg - partAvg)
-			if dist < minDist:
-				minDist = dist
-				bestMatchPath = partPath
+		# Vectorized distance calculation
+		dists = np.linalg.norm(mosaicAverages - avg, axis=1)
+		bestIdx = np.argmin(dists)
+		bestMatch = mosaicParts[bestIdx][0]
 
-		# print(f"Best match for region ({i}, {j}): {bestMatchPath}")
-
-		image.paste(Image.open(bestMatchPath), (i*32, j*32))
+		image.paste(bestMatch, (i*32, j*32))
 
 
 finalWidth = (width // 32) * 32
