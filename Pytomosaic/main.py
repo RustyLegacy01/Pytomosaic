@@ -13,9 +13,9 @@ VALID_EXTENSIONS = {
     ".tif",
 }
 
-def createMosaic(imgName, imgPath, sourceImages, cropSize, verbose=False):
+def createMosaic(imgPath, sourceImages, cropSize, verbose=False):
 
-	image = Image.open(f"{imgPath}/{imgName}")
+	image = Image.open(imgPath)
 	width, height = image.size
 	cropX, cropY = 0, 0  # top-left corner of the crop
 	area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
