@@ -24,11 +24,16 @@ def createMosaic(imgPath: str, sourceImages: str, cropSize: int, verbose: bool=F
 	if verbose: print("Processing Images...")
 
 	# Skip any files that are not images
-	tileManager = TileManager(
-		cropSize=cropSize,                 # size of each tile
-		sourceImagesDir=sourceImages,    # folder with your source images
-		verbose=verbose                 # show loading messages
-	)
+
+	if isinstance(sourceImages, TileManager):
+		tileManager = sourceImages
+		cropSize = tileManager._cropSize
+	else:
+		tileManager = TileManager(
+			cropSize=cropSize,                 # size of each tile
+			sourceImagesDir=sourceImages,    # folder with your source images
+			verbose=verbose                 # show loading messages
+		)
 
 	if verbose: print("Generating Image...")
 
