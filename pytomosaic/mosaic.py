@@ -2,7 +2,8 @@ from PIL import Image
 import numpy as np
 import os
 from tqdm import tqdm
-from tileManager import TileManager
+from pytomosaic.tileManager import TileManager
+
 
 VALID_EXTENSIONS = {
 	".jpg",
@@ -14,17 +15,11 @@ VALID_EXTENSIONS = {
     ".tif",
 }
 
-def createMosaic(imgPath: str, sourceImages: str, cropSize: int, verbose: bool=False):
-
-	image = Image.open(imgPath)
-	width, height = image.size
-	cropX, cropY = 0, 0  # top-left corner of the crop
-	area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
+def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = None, verbose: bool=False):
 
 	if verbose: print("Processing Images...")
 
 	# Skip any files that are not images
-
 	if isinstance(sourceImages, TileManager):
 		tileManager = sourceImages
 		cropSize = tileManager._cropSize
@@ -34,6 +29,11 @@ def createMosaic(imgPath: str, sourceImages: str, cropSize: int, verbose: bool=F
 			sourceImagesDir=sourceImages,    # folder with your source images
 			verbose=verbose                 # show loading messages
 		)
+
+	image = Image.open(imgPath)
+	width, height = image.size
+	cropX, cropY = 0, 0  # top-left corner of the crop
+	area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
 	if verbose: print("Generating Image...")
 
