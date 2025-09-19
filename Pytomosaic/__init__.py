@@ -1,1 +1,1 @@
-from .main import createMosaic
+from .mosaic import createMosaic
