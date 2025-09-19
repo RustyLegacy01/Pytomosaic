@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 import os
 from tqdm import tqdm
+from tileManager import TileManager
 
 VALID_EXTENSIONS = {
 	".jpg",
@@ -13,7 +14,7 @@ VALID_EXTENSIONS = {
     ".tif",
 }
 
-def createMosaic(imgPath, sourceImages, cropSize, verbose=False):
+def createMosaic(imgPath: str, sourceImages: str, cropSize: int, verbose: bool=False):
 
 	image = Image.open(imgPath)
 	width, height = image.size
@@ -22,23 +23,12 @@ def createMosaic(imgPath, sourceImages, cropSize, verbose=False):
 
 	if verbose: print("Processing Images...")
 
-	mosaicParts = []
-
 	# Skip any files that are not images
-	for mosaicPart in os.listdir(sourceImages):
-		_, extension = os.path.splitext(mosaicPart)
-		if extension not in VALID_EXTENSIONS:
-			if verbose: print(f"WARN: File extension '{extension}' is not accepted by PytoMosaic, skipped")
-			continue
-		
-		mosaicPartPath = f'{sourceImages}/{mosaicPart}'
-		mosaicPartImg = Image.open(mosaicPartPath).convert('RGB').resize((cropSize, cropSize))
-		arr = np.array(mosaicPartImg)
-		mosaicPartProcessed = arr.mean(axis=(0,1)).astype(int)
-
-		mosaicParts.append([mosaicPartImg, mosaicPartProcessed])
-
-	mosaicAverages = np.array([part[1] for part in mosaicParts])
+	tileManager = TileManager(
+		cropSize=cropSize,                 # size of each tile
+		sourceImagesDir=sourceImages,    # folder with your source images
+		verbose=verbose                 # show loading messages
+	)
 
 	if verbose: print("Generating Image...")
 
@@ -52,10 +42,7 @@ def createMosaic(imgPath, sourceImages, cropSize, verbose=False):
 			arr = np.array(croppedImage)
 			avg = arr.mean(axis=(0,1)).astype(int)
 
-			# Vectorized distance calculation
-			dists = np.linalg.norm(mosaicAverages - avg, axis=1)
-			bestIdx = np.argmin(dists)
-			bestMatch = mosaicParts[bestIdx][0]
+			bestMatch = tileManager.findClosestTile(avg)
 
 			image.paste(bestMatch, (i*cropSize, j*cropSize))
 
