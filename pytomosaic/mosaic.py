@@ -42,7 +42,7 @@ def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = 
 			cropX, cropY = i * cropSize, j * cropSize
 			area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
 
-			croppedImage = image.crop(area)
+			croppedImage = image.crop(area).convert("RGB")
 
 			arr = np.array(croppedImage)
 			avg = arr.mean(axis=(0,1)).astype(int)
