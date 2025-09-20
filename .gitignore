@@ -10,3 +10,4 @@ tempCodeRunnerFile.py
 images
 dist
 pytomosaic.egg-info
+pytomosaic/__pycache__
