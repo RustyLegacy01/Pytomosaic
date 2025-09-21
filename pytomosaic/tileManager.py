@@ -44,9 +44,3 @@ class TileManager:
 
 		# Return the corresponding tile image
 		return self.tiles[best_idx]
-	
-	def getClosestAvg(self, target: np.ndarray):
-		
-		dists = np.linalg.norm(self.averages - target, axis=1)
-		best_idx = np.argmin(dists)
-		return self.averages[best_idx]
