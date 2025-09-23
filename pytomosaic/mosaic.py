@@ -15,7 +15,7 @@ VALID_EXTENSIONS = {
     ".tif",
 }
 
-def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = None, verbose: bool=False):
+def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = None, verbose: bool=False, savePath: str = None):
 
 	if verbose: print("Processing Images...")
 
@@ -54,6 +54,10 @@ def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = 
 
 	finalWidth = (width // cropSize) * cropSize
 	finalHeight = (height // cropSize) * cropSize
+
+	if savePath:
+		if verbose: print(f"Saving image to {savePath}")
+		image.save(savePath)
 
 	# Crop and show the result
 	return image.crop((0, 0, finalWidth, finalHeight))
