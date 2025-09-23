@@ -1,6 +1,5 @@
 from PIL import Image
 import numpy as np
-import os
 from tqdm import tqdm
 from pytomosaic.tileManager import TileManager
 
@@ -51,6 +50,7 @@ def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = 
 
 			image.paste(bestMatch, (i*cropSize, j*cropSize))
 
+	if verbose: print("Generation Complete.")
 
 	finalWidth = (width // cropSize) * cropSize
 	finalHeight = (height // cropSize) * cropSize
