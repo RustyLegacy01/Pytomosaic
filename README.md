@@ -12,6 +12,7 @@ PytoMosaic is a Python library for creating photomosaics from images using a set
 * Reuse preloaded tiles with `TileManager` for multiple mosaics
 * Easy-to-use Python API
 * Compatible with Python 3.10+
+* Ability to save files
 
 ---
 
@@ -45,7 +46,7 @@ sourceImages = "source_folder"
 cropSize = 50  # Size of mosaic parts in px
 
 # Generate mosaic with verbose progress
-mosaic = createMosaic(imgPath, sourceImages, cropSize, verbose=True)
+mosaic = createMosaic(imgPath, sourceImages, cropSize, verbose=True, savePath="example.jpg")
 mosaic.show()
 ```
 
