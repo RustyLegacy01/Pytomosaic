@@ -13,6 +13,7 @@ PytoMosaic is a Python library for creating photomosaics from images using a set
 * Easy-to-use Python API
 * Compatible with Python 3.10+
 * Ability to save files
+* Image downloader for fast downloads
 
 ---
 
@@ -66,7 +67,20 @@ mosaic2 = createMosaic("photo2.jpg", tiles)
 
 Set `verbose=False` or leave empty to disable prints and progress bars.
 
+### Downloading images from pixabay
+```python
+from pytomosaic import downloadImages
+
+key = "YOUR_API_KEY" # Get from Pixabay
+amount = 200 # 200 Maximum due to pixabay restriction
+query = "Your Query" # What you want the pictures to be of
+pathToDownloadTo = "path/to/download/to"
+
+downloadImages(key, amount, query, pathToDownloadTo, verbose=True)
+```
+
 ---
+
 
 ## Supported Image Extensions
 
