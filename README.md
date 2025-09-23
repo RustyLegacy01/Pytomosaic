@@ -67,12 +67,13 @@ mosaic2 = createMosaic("photo2.jpg", tiles)
 
 Set `verbose=False` or leave empty to disable prints and progress bars.
 
-### Downloading images from pixabay
+### Downloading images from Pixabay
+
 ```python
 from pytomosaic import downloadImages
 
 key = "YOUR_API_KEY" # Get from Pixabay
-amount = 200 # 200 Maximum due to pixabay restriction
+amount = 200 # 200 Maximum due to Pixabay restriction
 query = "Your Query" # What you want the pictures to be of
 pathToDownloadTo = "path/to/download/to"
 
@@ -81,6 +82,13 @@ downloadImages(key, amount, query, pathToDownloadTo, verbose=True)
 
 ---
 
+## Examples
+
+![Example Mosaic 1](docs/747-3.jpg)
+
+> **Note:** These files are stored in the GitHub repo for demonstration purposes. Users installing PytoMosaic via PyPI do not automatically download these images.
+
+---
 
 ## Supported Image Extensions
 
