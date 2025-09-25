@@ -1,4 +1,5 @@
 # PytoMosaic
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/pytomosaic?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/pytomosaic)
 
 PytoMosaic is a Python library for creating photomosaics from images using a set of source images. It supports common image formats and provides a simple API with optional verbose progress output. It also allows reusing preloaded tiles for faster mosaic generation across multiple images.
 
