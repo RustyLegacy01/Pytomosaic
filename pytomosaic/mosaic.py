@@ -29,7 +29,7 @@ def createMosaic(imgPath: str, sourceImages: str | TileManager, cropSize: int = 
 			verbose=verbose                 # show loading messages
 		)
 
-	image = Image.open(imgPath)
+	image = Image.open(imgPath).convert("RGB")
 	width, height = image.size
 	cropX, cropY = 0, 0  # top-left corner of the crop
 	area = (cropX, cropY, cropX + cropSize, cropY + cropSize)
