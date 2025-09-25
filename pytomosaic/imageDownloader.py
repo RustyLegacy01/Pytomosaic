@@ -23,7 +23,7 @@ def downloadImages(key: str, amount: int, query: str, downloadPath: str, verbose
 
     if verbose: print("Downloading Images...")
 
-    for i in tqdm(range(0, len(data["hits"])-1), disable=not verbose):
+    for i in tqdm(range(0, len(data["hits"])), disable=not verbose):
         imageURL = data["hits"][count]["webformatURL"] # Link to Image
         imageData = requests.get(imageURL).content # Image itself
         img = Image.open(BytesIO(imageData)).convert("RGB") # Open with PIL
