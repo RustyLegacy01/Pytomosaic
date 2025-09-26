@@ -6,6 +6,7 @@ from tqdm import tqdm
 
 def downloadImages(key: str, amount: int, query: str, downloadPath: str, verbose: bool=False):
 
+    # Pixabay does not allow more than 200 images, so reject more
     if amount > 200:
         raise Exception("PytoMosaic - Can not download more than 200 images, aborting download")
     
@@ -15,6 +16,7 @@ def downloadImages(key: str, amount: int, query: str, downloadPath: str, verbose
             if query[i] == " ":
                 query[i] == "+"
 
+    # Send GET request to pixabay to acquire list of image links
     if verbose: print("Requesting Image List...")
     r = requests.get(f"https://pixabay.com/api/?key={key}&q={query}&image_type=photo&per_page={amount}")
     data = r.json()
@@ -27,7 +29,7 @@ def downloadImages(key: str, amount: int, query: str, downloadPath: str, verbose
         imageURL = data["hits"][count]["webformatURL"] # Link to Image
         imageData = requests.get(imageURL).content # Image itself
         img = Image.open(BytesIO(imageData)).convert("RGB") # Open with PIL
-        img.save(os.path.join(downloadPath, f"{query}_{count}.jpg"))
+        img.save(os.path.join(downloadPath, f"{query}_{count}.jpg")) # Save file to directory
 
         count += 1
     
